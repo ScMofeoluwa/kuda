@@ -9,7 +9,8 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "declaration": true
   },
   "include": ["lib", "**/*.test.ts"]
 }
