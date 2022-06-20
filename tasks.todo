@@ -1,0 +1,5 @@
+- Create custom error handlers
+- Test resource with valid data
+- Improve trackingReference function
+- Add pagination functionality
+- Remove dotenv dependency

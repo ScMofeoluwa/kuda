@@ -2,7 +2,7 @@ import axios from "axios";
 import crypto from "crypto";
 import { getPassword } from "../utils/credentials";
 import { decryptCredential, encryptCredential } from "../utils/rsa";
-import { HttpMethods, IAxiosPayload, IConfig, IkudaResponseData } from "../interfaces";
+import { HttpMethods, IAxiosPayload, IConfig, IkudaRequestData, IkudaEncryptedResponseData } from "../interfaces";
 import { decrypt, encrypt } from "../utils/aes256";
 
 class KudaRequest {
@@ -17,13 +17,13 @@ class KudaRequest {
     const headers = await this._getHeader();
     const body = await this._getBody(payload);
     try {
-      const { data: responseData }: { data: IkudaResponseData } = await axios.post(
+      const { data: responseData }: { data: IkudaEncryptedResponseData } = await axios.post(
         this.baseUrl,
         { data: body },
         { headers: headers },
       );
 
-      return await this.decryptPayload(responseData.data, responseData.password);
+      return JSON.parse(await this.decryptPayload(responseData.data, responseData.password));
     } catch (error) {
       console.log(error);
     }
@@ -47,12 +47,17 @@ class KudaRequest {
     return await decrypt(data, decryptedPassword);
   }
 
-  protected async request(data: any) {
+  protected async request(data: IkudaRequestData) {
     return await this._makeRequest(data);
   }
 
   protected generateRequestReference() {
     return crypto.randomUUID();
+  }
+
+  protected generateTrackingReference(lastName: string, firstName: string, email: string) {
+    (email = email.slice(0, 2)), (lastName = lastName.slice(0, 3)), (firstName = firstName.slice(0, 5));
+    return `${email}$${lastName}$${firstName}`;
   }
 }
 
