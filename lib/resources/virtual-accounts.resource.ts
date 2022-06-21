@@ -7,29 +7,19 @@ class VirtualAccounts extends KudaRequest {
     super({ ...options });
   }
 
-  private getTrackingReference({ lastName, firstName, email }: { lastName: string; firstName: string; email: string }) {
-    return this.generateTrackingReference(lastName, firstName, email);
-  }
-
-  async getOne(data: { email: string; lastName: string; firstName: string }) {
-    const trackingReference = this.getTrackingReference(data);
+  async getOne(data: { trackingReference: string }) {
     return (await this.request({
       serviceType: serviceTypeEnums.ADMIN_RETRIEVE_SINGLE_VIRTUAL_ACCOUNT,
       requestRef: this.generateRequestReference(),
-      data: {
-        trackingReference,
-      },
+      data: data,
     })) as IkudaResponseData;
   }
 
-  async getBalance(data: { email: string; lastName: string; firstName: string }) {
-    const trackingReference = this.getTrackingReference(data);
+  async getBalance(data: { trackingReference: string }) {
     return (await this.request({
       serviceType: serviceTypeEnums.RETRIEVE_VIRTUAL_ACCOUNT_BALANCE,
       requestRef: this.generateRequestReference(),
-      data: {
-        trackingReference,
-      },
+      data: data,
     })) as IkudaResponseData;
   }
 
@@ -41,28 +31,20 @@ class VirtualAccounts extends KudaRequest {
     })) as IkudaResponseData;
   }
 
-  async transactions(data: { email: string; lastName: string; firstName: string }) {
-    const trackingReference = this.getTrackingReference(data);
+  async transactions(data: { trackingReference: string }) {
     return (await this.request({
       serviceType: serviceTypeEnums.ADMIN_VIRTUAL_ACCOUNT_TRANSACTIONS,
       requestRef: this.generateRequestReference(),
-      data: { trackingReference, pageSize: 1, pageNumber: 1 },
+      data: { ...data, pageSize: 1, pageNumber: 1 },
     })) as IkudaResponseData;
   }
 
-  //yet to figure out the datetype
-  async filterTransactions(data: {
-    email: string;
-    lastName: string;
-    firstName: string;
-    startDate: string;
-    endDate: string;
-  }) {
-    const trackingReference = this.generateTrackingReference(data.lastName, data.email, data.firstName);
+  async filterTransactions(data: { trackingReference: string; startDate: string; endDate: string }) {
+    // date string must be ISO 8601 Extended format
     return (await this.request({
       serviceType: serviceTypeEnums.ADMIN_VIRTUAL_ACCOUNT_FILTERED_TRANSACTIONS,
       requestRef: this.generateRequestReference(),
-      data: { trackingReference, pageSize: 1, pageNumber: 1, startDate: data.startDate, endDate: data.endDate },
+      data: { ...data, pageSize: 1, pageNumber: 1 },
     })) as IkudaResponseData;
   }
 
