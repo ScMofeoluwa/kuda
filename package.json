@@ -19,7 +19,10 @@
     "pre-build": "rm -rf ./dist",
     "build": "yarn run pre-build && yarn tsc -p ./tsconfig.build.json",
     "test": "yarn jest --clearCache && jest --verbose --runInBand",
-    "ts-node": "ts-node"
+    "ts-node": "ts-node",
+    "style:all": "yarn run build && yarn run style:prettier",
+    "style:prettier": "prettier --check 'lib/**/*'",
+    "make-pretty": "prettier --write 'lib/**/*'"
   },
   "devDependencies": {
     "@types/jest": "^28.1.1",
@@ -36,6 +39,7 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "node-jsencrypt": "^1.0.0",
+    "prettier": "^2.7.1",
     "rsa-xml": "^0.1.5"
   }
 }
