@@ -31,7 +31,7 @@ class VirtualAccounts extends KudaRequest {
     })) as IkudaResponseData;
   }
 
-  async transactions(data: { trackingReference: string }) {
+  async getTransactions(data: { trackingReference: string }) {
     return (await this.request({
       serviceType: serviceTypeEnums.ADMIN_VIRTUAL_ACCOUNT_TRANSACTIONS,
       requestRef: this.generateRequestReference(),

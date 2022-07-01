@@ -30,7 +30,7 @@ class MainAccount extends KudaRequest {
     })) as IkudaResponseData;
   }
 
-  async transactions() {
+  async getTransactions() {
     return (await this.request({
       serviceType: serviceTypeEnums.ADMIN_MAIN_ACCOUNT_TRANSACTIONS,
       requestRef: this.generateRequestReference(),

@@ -21,8 +21,8 @@
     "test": "yarn jest --clearCache && jest --verbose --runInBand",
     "ts-node": "ts-node",
     "style:all": "yarn run build && yarn run style:prettier",
-    "style:prettier": "prettier --check 'lib/**/*'",
-    "make-pretty": "prettier --write 'lib/**/*'"
+    "style:prettier": "prettier --check lib/**",
+    "make-pretty": "prettier --write lib/**"
   },
   "devDependencies": {
     "@types/jest": "^28.1.1",
@@ -39,6 +39,7 @@
     "lib/**/*"
   ],
   "dependencies": {
+    "axios": "^0.27.2",
     "dotenv": "^16.0.0",
     "node-jsencrypt": "^1.0.0",
     "rsa-xml": "^0.1.5"
