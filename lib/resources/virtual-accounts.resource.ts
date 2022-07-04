@@ -23,11 +23,17 @@ class VirtualAccounts extends KudaRequest {
     })) as IkudaResponseData;
   }
 
-  async create(data: { email: string; phoneNumber: string; lastName: string; firstName: string }) {
+  async create(data: {
+    email: string;
+    phoneNumber: string;
+    lastName: string;
+    firstName: string;
+    trackingReference: string;
+  }) {
     return (await this.request({
       serviceType: serviceTypeEnums.ADMIN_CREATE_VIRTUAL_ACCOUNT,
       requestRef: this.generateRequestReference(),
-      data: { ...data, trackingReference: this.generateTrackingReference(data.lastName, data.firstName, data.email) },
+      data: data,
     })) as IkudaResponseData;
   }
 
